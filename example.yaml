@@ -1,3 +1,9 @@
+substitutions:
+  device_name: Haier AC
+  device_id: haier_climate
+  uart_id: ac_port 
+  send_wifi: "true"
+
 esphome:
   name: haier-ac-ir-remote
 
@@ -22,7 +28,7 @@ web_server:
 external_components:
   - source:
       type: git
-      url: https://github.com/rozh1/esphome-haier-ac-ir
+      url: https://github.com/ResupinePuma/esphome-haier-ac-ir
 
 sensor:
   # External temperature sensor from Home Assistant 
@@ -32,6 +38,28 @@ sensor:
 
 climate:
   - platform: haier_acyrw02
-    sensor_id: current_temperature
+    sensor_id: ${device_id}_current_temperature
     pin: 3 # Pin with IR led
-    name: "AC Haier"
+    name: ${device_name}
+
+  - platform: template
+    id: ${device_id}_vertical_direction
+    name: ${device_name} airflow vertical
+    entity_category: config
+    icon: mdi:arrow-expand-vertical
+    optimistic: true
+    restore_value: true
+    initial_option: Auto 
+    options:
+      - Max Up
+      - Up
+      - Center
+      - Down
+      - Max Down
+      - Auto
+    on_value:
+      then:
+        - climate.haier_acyrw02.set_vertical_airflow:
+           id: ${device_id}
+           vertical_airflow: !lambda |-
+             return esphome::haier_acyrw02::AirflowVerticalDirection(i);

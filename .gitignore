@@ -1,0 +1,5 @@
+IRremoteESP8266
+esphome
+ArduinoJson
+ArduinoCore-avr
+.vscode
