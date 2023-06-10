@@ -104,7 +104,7 @@ namespace esphome
         if (this->swing_mode == climate::CLIMATE_SWING_OFF)
         {
           ac_->setSwing(kHaierAcYrw02SwingVOff);
-          ac_->setSwingV(this->vertical_direction_);
+          ac_->setSwingV((uint8_t) HaierClimate::get_vertical_swing_mode(this->vertical_direction_));
         }
         else if (this->swing_mode == climate::CLIMATE_SWING_VERTICAL)
         {
@@ -183,11 +183,13 @@ namespace esphome
       }
     }
 
+    AirflowVerticalDirection HaierClimate::get_vertical_airflow() const { return this->vertical_direction_; };
+
     void HaierClimate::set_vertical_airflow(AirflowVerticalDirection direction) {
       if (direction > AirflowVerticalDirection::DOWN) {
-        this->vertical_direction_ = get_vertical_swing_mode(AirflowVerticalDirection::CENTER);
+        this->vertical_direction_ =AirflowVerticalDirection::CENTER;
       } else {
-        this->vertical_direction_ = get_vertical_swing_mode(direction);;
+        this->vertical_direction_ = direction;;
       }
     }
   } // namespace haier_acyrw02

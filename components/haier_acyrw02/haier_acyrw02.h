@@ -13,7 +13,7 @@ namespace esphome
   namespace haier_acyrw02
   {
 
-    enum VerticalSwingMode : uint8_t
+    enum class VerticalSwingMode : uint8_t
     {
       MAX_UP = kHaierAc160SwingVHighest,
       UP = kHaierAc160SwingVTop,
@@ -46,6 +46,7 @@ namespace esphome
       ~HaierClimate();
 
     public:
+      AirflowVerticalDirection get_vertical_airflow() const;
       void set_vertical_airflow(AirflowVerticalDirection direction);
 
       void set_sensor(sensor::Sensor *sensor);
@@ -57,7 +58,7 @@ namespace esphome
 
       VerticalSwingMode get_vertical_swing_mode(AirflowVerticalDirection direction);
 
-      uint8_t vertical_direction_;
+      AirflowVerticalDirection vertical_direction_;
       void setup_ir_cmd();
 
       climate::ClimateTraits traits() override;
