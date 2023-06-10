@@ -19,8 +19,6 @@ namespace esphome
       UP = kHaierAcYrw02SwingVTop,
       CENTER = kHaierAcYrw02SwingVMiddle,
       DOWN = kHaierAcYrw02SwingVDown,
-      MAX_DOWN = kHaierAcYrw02SwingVBottom,
-      AUTO = kHaierAcYrw02SwingVAuto
     };
 
     enum class AirflowVerticalDirection : uint8_t
@@ -28,8 +26,6 @@ namespace esphome
       UP = 0,
       CENTER = 1,
       DOWN = 2,
-      MAX_DOWN = 3,
-      AUTO = 4
     };
 
     const uint8_t HAIER_ACYRW02_TEMP_MIN = 16; // 16C

@@ -15,12 +15,8 @@ namespace esphome
           return VerticalSwingMode::CENTER;
         case AirflowVerticalDirection::DOWN:
           return VerticalSwingMode::DOWN;
-        case AirflowVerticalDirection::MAX_DOWN:
-          return VerticalSwingMode::MAX_DOWN;
-        case AirflowVerticalDirection::AUTO:
-          return VerticalSwingMode::AUTO;
         default:
-          return VerticalSwingMode::AUTO;
+          return VerticalSwingMode::CENTER;
       }
     }
 

@@ -54,8 +54,6 @@ climate:
       - Up
       - Center
       - Down
-      - Max Down
-      - Auto
     on_value:
       then:
         - climate.haier_acyrw02.set_vertical_airflow:
