@@ -26,16 +26,6 @@ AIRFLOW_VERTICAL_DIRECTION_OPTIONS = {
     "DOWN": AirflowVerticalDirection.DOWN,
 }
 
-async def to_code(config):
-    if CORE.is_esp8266 or CORE.is_esp32:
-        cg.add_library("crankyoldgit/IRremoteESP8266", "2.8.4")
-
-    var = cg.new_Pvariable(config[CONF_ID])
-    await climate.register_climate(var, config)
-    
-    sens = await cg.get_variable(config[CONF_SENSOR_ID])
-    cg.add(var.init(sens, config[CONF_PIN]))
-
 
 @automation.register_action(
     "climate.haier_acyrw02.set_vertical_airflow",
@@ -57,3 +47,16 @@ async def haier_set_vertical_airflow_to_code(config, action_id, template_arg, ar
     )
     cg.add(var.set_direction(template_))
     return var
+
+async def to_code(config):
+    if CORE.is_esp8266 or CORE.is_esp32:
+        cg.add_library("crankyoldgit/IRremoteESP8266", "2.8.4")
+
+    var = cg.new_Pvariable(config[CONF_ID])
+    await cg.register_component(var, config)
+    await climate.register_climate(var, config)
+    
+    sens = await cg.get_variable(config[CONF_SENSOR_ID])
+    cg.add(var.init(sens, config[CONF_PIN]))
+
+

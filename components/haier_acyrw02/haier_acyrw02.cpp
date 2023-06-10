@@ -104,7 +104,7 @@ namespace esphome
         if (this->swing_mode == climate::CLIMATE_SWING_OFF)
         {
           ac_->setSwing(kHaierAcYrw02SwingVOff);
-          ac_->setSwingV((uint8_t) HaierClimate::get_vertical_swing_mode(this->vertical_direction_));
+          ac_->setSwingV((uint8_t) get_vertical_swing_mode(this->vertical_direction_));
         }
         else if (this->swing_mode == climate::CLIMATE_SWING_VERTICAL)
         {
@@ -164,7 +164,7 @@ namespace esphome
       ESP_LOGD("DEBUG", "  %s\n", ac_->toString().c_str());
     }
 
-    haier_acyrw02::VerticalSwingMode HaierClimate::get_vertical_swing_mode(AirflowVerticalDirection direction) {
+    haier_acyrw02::VerticalSwingMode get_vertical_swing_mode(AirflowVerticalDirection direction) {
       switch (direction) {
         case AirflowVerticalDirection::MAX_UP:
           return haier_acyrw02::VerticalSwingMode::MAX_UP;

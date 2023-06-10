@@ -56,8 +56,6 @@ namespace esphome
       IRHaierACYRW02 *ac_{nullptr};
       sensor::Sensor *sensor_{nullptr};
 
-      VerticalSwingMode get_vertical_swing_mode(AirflowVerticalDirection direction);
-
       AirflowVerticalDirection vertical_direction_;
       void setup_ir_cmd();
 
