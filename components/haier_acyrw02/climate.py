@@ -38,7 +38,7 @@ async def to_code(config):
 
 
 @automation.register_action(
-    "climate.haier.set_vertical_airflow",
+    "climate.haier_acyrw02.set_vertical_airflow",
     VerticalAirflowAction,
     cv.Schema(
         {
