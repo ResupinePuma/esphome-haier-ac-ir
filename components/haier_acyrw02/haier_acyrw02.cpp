@@ -7,6 +7,25 @@ namespace esphome
 
     static const char *const TAG = "climate.haier_acyrw02";
 
+    VerticalSwingMode get_vertical_swing_mode(AirflowVerticalDirection direction) {
+      switch (direction) {
+        case AirflowVerticalDirection::MAX_UP:
+          return VerticalSwingMode::MAX_UP;
+        case AirflowVerticalDirection::UP:
+          return VerticalSwingMode::UP;
+        case AirflowVerticalDirection::CENTER:
+          return VerticalSwingMode::CENTER;
+        case AirflowVerticalDirection::DOWN:
+          return VerticalSwingMode::DOWN;
+        case AirflowVerticalDirection::MAX_DOWN:
+          return VerticalSwingMode::MAX_DOWN;
+        case AirflowVerticalDirection::AUTO:
+          return VerticalSwingMode::AUTO;
+        default:
+          return VerticalSwingMode::AUTO;
+      }
+    }
+
     void HaierClimate::init(sensor::Sensor *sensor, uint16_t pin)
     {
       this->set_sensor(sensor);
@@ -104,7 +123,7 @@ namespace esphome
         if (this->swing_mode == climate::CLIMATE_SWING_OFF)
         {
           ac_->setSwing(kHaierAcYrw02SwingVOff);
-          ac_->setSwingV((uint8_t) haier_acyrw02::get_vertical_swing_mode(this->vertical_direction_));
+          ac_->setSwingV((uint8_t) get_vertical_swing_mode(this->vertical_direction_));
         }
         else if (this->swing_mode == climate::CLIMATE_SWING_VERTICAL)
         {
@@ -163,26 +182,6 @@ namespace esphome
       ESP_LOGD("DEBUG", "Haier A/C remote is in the following state:");
       ESP_LOGD("DEBUG", "  %s\n", ac_->toString().c_str());
     }
-
-    haier_acyrw02::VerticalSwingMode haier_acyrw02::get_vertical_swing_mode(AirflowVerticalDirection direction) {
-      switch (direction) {
-        case AirflowVerticalDirection::MAX_UP:
-          return haier_acyrw02::VerticalSwingMode::MAX_UP;
-        case AirflowVerticalDirection::UP:
-          return haier_acyrw02::VerticalSwingMode::UP;
-        case AirflowVerticalDirection::CENTER:
-          return haier_acyrw02::VerticalSwingMode::CENTER;
-        case AirflowVerticalDirection::DOWN:
-          return haier_acyrw02::VerticalSwingMode::DOWN;
-        case AirflowVerticalDirection::MAX_DOWN:
-          return haier_acyrw02::VerticalSwingMode::MAX_DOWN;
-        case AirflowVerticalDirection::AUTO:
-          return haier_acyrw02::VerticalSwingMode::AUTO;
-        default:
-          return haier_acyrw02::VerticalSwingMode::AUTO;
-      }
-    }
-
     AirflowVerticalDirection HaierClimate::get_vertical_airflow() const { return this->vertical_direction_; };
 
     void HaierClimate::set_vertical_airflow(AirflowVerticalDirection direction) {
