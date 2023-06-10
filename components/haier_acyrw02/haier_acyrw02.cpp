@@ -122,7 +122,7 @@ namespace esphome
 
         if (this->swing_mode == climate::CLIMATE_SWING_OFF)
         {
-          ac_->setSwing(kHaierAcYrw02SwingVOff);
+          //ac_->setSwing(kHaierAcYrw02SwingVOff);
           ac_->setSwingV((uint8_t) get_vertical_swing_mode(this->vertical_direction_));
         }
         else if (this->swing_mode == climate::CLIMATE_SWING_VERTICAL)
