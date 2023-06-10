@@ -14,18 +14,6 @@ namespace esphome
   namespace haier_acyrw02
   {
 
-    template <typename... Ts>
-    class VerticalAirflowAction : public Action<Ts...>
-    {
-    public:
-        VerticalAirflowAction(haier_acyrw02::HaierClimate *parent) : parent_(parent) {}
-        TEMPLATABLE_VALUE(AirflowVerticalDirection, direction)
-        void play(Ts... x) { this->parent_->set_vertical_airflow(this->direction_.value(x...)); }
-
-    protected:
-        haier_acyrw02::HaierClimate *parent_;
-    };
-
     enum class VerticalSwingMode : uint8_t
     {
       MAX_UP = kHaierAc160SwingVHighest,
@@ -74,6 +62,19 @@ namespace esphome
 
       climate::ClimateTraits traits() override;
       void control(const climate::ClimateCall &call) override;
+    };
+
+    template <typename... Ts>
+    class VerticalAirflowAction : public Action<Ts...>
+    {
+    public:
+      VerticalAirflowAction(
+          : HaierClimate *parent) : parent_(parent) {}
+      TEMPLATABLE_VALUE(AirflowVerticalDirection, direction)
+      void play(Ts... x) { this->parent_->set_vertical_airflow(this->direction_.value(x...)); }
+
+    protected:
+      HaierClimate *parent_;
     };
 
   } // namespace haier_acyrw02
