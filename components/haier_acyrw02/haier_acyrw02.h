@@ -3,6 +3,7 @@
 #include "esphome/core/log.h"
 #include "esphome/components/climate/climate.h"
 #include "esphome/components/sensor/sensor.h"
+#include "esphome/core/automation.h"
 
 #include "IRremoteESP8266.h"
 #include "IRsend.h"
@@ -12,6 +13,18 @@ namespace esphome
 {
   namespace haier_acyrw02
   {
+
+    template <typename... Ts>
+    class VerticalAirflowAction : public Action<Ts...>
+    {
+    public:
+        VerticalAirflowAction(HaierClimate *parent) : parent_(parent) {}
+        TEMPLATABLE_VALUE(AirflowVerticalDirection, direction)
+        void play(Ts... x) { this->parent_->set_vertical_airflow(this->direction_.value(x...)); }
+
+    protected:
+        HaierClimate *parent_;
+    };
 
     enum class VerticalSwingMode : uint8_t
     {
