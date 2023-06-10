@@ -9,8 +9,6 @@ namespace esphome
 
     VerticalSwingMode get_vertical_swing_mode(AirflowVerticalDirection direction) {
       switch (direction) {
-        case AirflowVerticalDirection::MAX_UP:
-          return VerticalSwingMode::MAX_UP;
         case AirflowVerticalDirection::UP:
           return VerticalSwingMode::UP;
         case AirflowVerticalDirection::CENTER:
@@ -122,11 +120,11 @@ namespace esphome
 
         if (this->swing_mode == climate::CLIMATE_SWING_OFF)
         {
-          ac_->setSwing((uint8_t) get_vertical_swing_mode(this->vertical_direction_));
+          ac_->setSwingV((uint8_t) get_vertical_swing_mode(this->vertical_direction_));
         }
         else if (this->swing_mode == climate::CLIMATE_SWING_VERTICAL)
         {
-          ac_->setSwing(kHaierAcYrw02SwingVAuto);
+          ac_->setSwingV(kHaierAcYrw02SwingVAuto);
         }
 
         ac_->setSleep(this->preset == climate::CLIMATE_PRESET_SLEEP);

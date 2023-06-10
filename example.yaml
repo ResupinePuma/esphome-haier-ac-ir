@@ -51,7 +51,6 @@ climate:
     restore_value: true
     initial_option: Auto 
     options:
-      - Max Up
       - Up
       - Center
       - Down
