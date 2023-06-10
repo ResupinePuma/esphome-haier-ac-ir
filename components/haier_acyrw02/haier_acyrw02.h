@@ -18,12 +18,12 @@ namespace esphome
     class VerticalAirflowAction : public Action<Ts...>
     {
     public:
-        VerticalAirflowAction(HaierClimate *parent) : parent_(parent) {}
-        TEMPLATABLE_VALUE(AirflowVerticalDirection, direction)
+        VerticalAirflowAction(haier_acyrw02::HaierClimate *parent) : parent_(parent) {}
+        TEMPLATABLE_VALUE(haier_acyrw02::AirflowVerticalDirection, direction)
         void play(Ts... x) { this->parent_->set_vertical_airflow(this->direction_.value(x...)); }
 
     protected:
-        HaierClimate *parent_;
+        haier_acyrw02::HaierClimate *parent_;
     };
 
     enum class VerticalSwingMode : uint8_t
