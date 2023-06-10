@@ -122,8 +122,7 @@ namespace esphome
 
         if (this->swing_mode == climate::CLIMATE_SWING_OFF)
         {
-          //ac_->setSwing(kHaierAcYrw02SwingVOff);
-          ac_->setSwingV((uint8_t) get_vertical_swing_mode(this->vertical_direction_));
+          ac_->setSwing((uint8_t) get_vertical_swing_mode(this->vertical_direction_));
         }
         else if (this->swing_mode == climate::CLIMATE_SWING_VERTICAL)
         {
@@ -131,7 +130,7 @@ namespace esphome
         }
 
         ac_->setSleep(this->preset == climate::CLIMATE_PRESET_SLEEP);
-        ac_->setHealth(this->preset == climate::CLIMATE_PRESET_COMFORT);
+        ac_->setQuiet(this->preset == climate::CLIMATE_PRESET_COMFORT);
         ac_->setTurbo(this->preset == climate::CLIMATE_PRESET_BOOST);
         
       }
@@ -145,7 +144,7 @@ namespace esphome
       traits.set_supported_fan_modes(
           {climate::CLIMATE_FAN_LOW, climate::CLIMATE_FAN_MEDIUM, climate::CLIMATE_FAN_HIGH, climate::CLIMATE_FAN_AUTO});
       traits.set_supported_swing_modes({climate::CLIMATE_SWING_OFF, climate::CLIMATE_SWING_VERTICAL});
-      traits.set_supported_presets({climate::CLIMATE_PRESET_NONE, climate::CLIMATE_PRESET_ECO, climate::CLIMATE_PRESET_BOOST});
+      traits.set_supported_presets({climate::CLIMATE_PRESET_NONE, climate::CLIMATE_PRESET_ECO, climate::CLIMATE_PRESET_COMFORT, climate::CLIMATE_PRESET_BOOST});
 
       
 
@@ -190,6 +189,8 @@ namespace esphome
       } else {
         this->vertical_direction_ = direction;;
       }
+      this->setup_ir_cmd();
+      ac_->send();
     }
   } // namespace haier_acyrw02
 } // namespace esphome
