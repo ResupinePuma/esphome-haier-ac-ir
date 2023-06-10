@@ -19,7 +19,7 @@ namespace esphome
     {
     public:
         VerticalAirflowAction(haier_acyrw02::HaierClimate *parent) : parent_(parent) {}
-        TEMPLATABLE_VALUE(haier_acyrw02::AirflowVerticalDirection, direction)
+        TEMPLATABLE_VALUE(AirflowVerticalDirection, direction)
         void play(Ts... x) { this->parent_->set_vertical_airflow(this->direction_.value(x...)); }
 
     protected:
