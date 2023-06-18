@@ -1,20 +1,24 @@
-#include "haier_acyrw02.h"
+#include "haier_ac160.h"
 
 namespace esphome
 {
-  namespace haier_acyrw02
+  namespace haier_ac160
   {
 
-    static const char *const TAG = "climate.haier_acyrw02";
+    static const char *const TAG = "climate.haier_ac160";
 
     VerticalSwingMode get_vertical_swing_mode(AirflowVerticalDirection direction) {
       switch (direction) {
+        case AirflowVerticalDirection::MAXUP:
+          return VerticalSwingMode::MAXUP;
         case AirflowVerticalDirection::UP:
           return VerticalSwingMode::UP;
         case AirflowVerticalDirection::CENTER:
           return VerticalSwingMode::CENTER;
         case AirflowVerticalDirection::DOWN:
           return VerticalSwingMode::DOWN;
+        case AirflowVerticalDirection::MAXDOWN:
+          return VerticalSwingMode::MAXDOWN;
         default:
           return VerticalSwingMode::CENTER;
       }
@@ -23,7 +27,7 @@ namespace esphome
     void HaierClimate::init(sensor::Sensor *sensor, uint16_t pin)
     {
       this->set_sensor(sensor);
-      ac_ = new IRHaierACYRW02(pin);
+      ac_ = new IRHaierAC160(pin);
       if (this->sensor_)
       {
         this->sensor_->add_on_state_callback([this](float state)
@@ -67,6 +71,7 @@ namespace esphome
 
     void HaierClimate::setup_ir_cmd()
     {
+      ac_->setLightToggle(true);
       if (this->mode == climate::CLIMATE_MODE_OFF)
       {
         ac_->off();
@@ -142,8 +147,8 @@ namespace esphome
 
       
 
-      traits.set_visual_max_temperature(HAIER_ACYRW02_TEMP_MAX);
-      traits.set_visual_min_temperature(HAIER_ACYRW02_TEMP_MIN);
+      traits.set_visual_max_temperature(haier_ac160_TEMP_MAX);
+      traits.set_visual_min_temperature(haier_ac160_TEMP_MIN);
       traits.set_visual_temperature_step(1);
       traits.set_supports_current_temperature(true);
 
@@ -175,6 +180,7 @@ namespace esphome
       ESP_LOGD("DEBUG", "Haier A/C remote is in the following state:");
       ESP_LOGD("DEBUG", "  %s\n", ac_->toString().c_str());
     }
+    
     AirflowVerticalDirection HaierClimate::get_vertical_airflow() const { return this->vertical_direction_; };
 
     void HaierClimate::set_vertical_airflow(AirflowVerticalDirection direction) {
@@ -186,5 +192,5 @@ namespace esphome
       this->setup_ir_cmd();
       ac_->send();
     }
-  } // namespace haier_acyrw02
+  } // namespace haier_ac160
 } // namespace esphome

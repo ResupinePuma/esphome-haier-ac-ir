@@ -1,14 +1,14 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import climate, sensor
-from esphome.const import CONF_ID, CONF_SENSOR_ID, CONF_PIN
+from esphome.const import CONF_ID, CONF_SENSOR_ID, CONF_PIN, CONF_SENSORS
 from esphome.core import CORE
 from esphome import automation
 
 AUTO_LOAD = ["climate"]
 
-haier_acyrw02_ns = cg.esphome_ns.namespace("haier_acyrw02")
-HaierClimate = haier_acyrw02_ns.class_("HaierClimate", climate.Climate, cg.Component)
+haier_ac160_ns = cg.esphome_ns.namespace("haier_ac160")
+HaierClimate = haier_ac160_ns.class_("HaierClimate", climate.Climate, cg.Component)
 
 CONFIG_SCHEMA = climate.CLIMATE_SCHEMA.extend(
     {
@@ -18,8 +18,8 @@ CONFIG_SCHEMA = climate.CLIMATE_SCHEMA.extend(
     }
 )
 CONF_VERTICAL_AIRFLOW = "vertical_airflow"
-VerticalAirflowAction = haier_acyrw02_ns.class_("VerticalAirflowAction", automation.Action)
-AirflowVerticalDirection = haier_acyrw02_ns.enum("AirflowVerticalDirection")
+VerticalAirflowAction = haier_ac160_ns.class_("VerticalAirflowAction", automation.Action)
+AirflowVerticalDirection = haier_ac160_ns.enum("AirflowVerticalDirection")
 AIRFLOW_VERTICAL_DIRECTION_OPTIONS = {
     "UP": AirflowVerticalDirection.UP,
     "CENTER": AirflowVerticalDirection.CENTER,
@@ -28,7 +28,7 @@ AIRFLOW_VERTICAL_DIRECTION_OPTIONS = {
 
 
 @automation.register_action(
-    "climate.haier_acyrw02.set_vertical_airflow",
+    "climate.haier_ac160.set_vertical_airflow",
     VerticalAirflowAction,
     cv.Schema(
         {
