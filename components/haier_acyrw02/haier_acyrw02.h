@@ -11,29 +11,25 @@
 
 namespace esphome
 {
-  namespace haier_ac160
+  namespace haier_acyrw02
   {
 
     enum class VerticalSwingMode : uint8_t
     {
-      MAXUP = kHaierAc160SwingVHighest,
-      UP = kHaierAc160SwingVHigh,
-      CENTER = kHaierAc160SwingVMiddle,
-      DOWN = kHaierAc160SwingVLow,
-      MAXDOWN = kHaierAc160SwingVLowest,
+      UP = kHaierAcYrw02SwingVTop,
+      CENTER = kHaierAcYrw02SwingVMiddle,
+      DOWN = kHaierAcYrw02SwingVDown,
     };
 
     enum class AirflowVerticalDirection : uint8_t
     {
-      MAXUP = 0,
-      UP = 1,
-      CENTER = 2,
-      DOWN = 3,
-      MAXDOWN = 4
+      UP = 0,
+      CENTER = 1,
+      DOWN = 2,
     };
 
-    const uint8_t haier_ac160_TEMP_MIN = 16; // 16C
-    const uint8_t haier_ac160_TEMP_MAX = 30; // 32C
+    const uint8_t HAIER_ACYRW02_TEMP_MIN = 16; // 16C
+    const uint8_t HAIER_ACYRW02_TEMP_MAX = 30; // 32C
 
     class HaierClimate : public esphome::Component,
                          public climate::Climate
@@ -52,7 +48,7 @@ namespace esphome
       void init(sensor::Sensor *sensor, uint16_t pin);
 
     protected:
-      IRHaierAC160 *ac_{nullptr};
+      IRHaierACYRW02 *ac_{nullptr};
       sensor::Sensor *sensor_{nullptr};
 
       AirflowVerticalDirection vertical_direction_;
@@ -74,5 +70,5 @@ namespace esphome
       HaierClimate *parent_;
     };
 
-  } // namespace haier_ac160
+  } // namespace haier_acyrw02
 } // namespace esphome
