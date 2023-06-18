@@ -1,47 +1,85 @@
 substitutions:
-  device_name: Haier AC
-  device_id: haier_climate
-  uart_id: ac_port 
-  send_wifi: "true"
+  device_name: AC Bedroom
+  device_id: ac_bedroom
 
 esphome:
-  name: haier-ac-ir-remote
+  name: ac-bedroom
+  friendly_name: AC_Bedroom
 
 esp8266:
-  board: esp01_1m
+  board: d1_mini
 
+# Enable logging
 logger:
+  level: DEBUG
   baud_rate: 0
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "xxxxxxx"
+
+ota:
+  password: "xxxxxxx"
 
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
+  domain: !secret domain
 
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
-    ssid: "haier-ac-ir-remote Fallback Hotspot"
-    password: "0000"
+    ssid: "Ac-Bedroom Fallback Hotspot"
+    password: "ojv0ftPjHKHc"
 
-web_server:
-  port: 80
+captive_portal:
 
 external_components:
   - source:
       type: git
       url: https://github.com/ResupinePuma/esphome-haier-ac-ir
+      ref: dev
+    refresh: 1s
 
 sensor:
-  # External temperature sensor from Home Assistant 
-  - platform: homeassistant
-    id: current_temperature
-    entity_id: ${temperature_sensor}
+# External temperature sensor from Home Assistant 
+- platform: dht
+  pin: 13
+  model: DHT11
+  temperature:
+    name: ${device_name} Temperature
+    id: ${device_id}_temperature
+  humidity:
+    name: ${device_name} Humidity
+    id: ${device_id}_humidity
+  update_interval: 60s
+
+# Example source sensor:
+- platform: adc
+  id: status_sensor
+  internal: true
+  pin: A0
+  update_interval: 3s
+  filters:
+    - multiply: 3.3
+
+binary_sensor:
+  - platform: template
+    name: Online
+    lambda: |-
+      if (id(status_sensor).state > 2.0) {
+        return true;
+      }
+      return false;      
 
 climate:
-  - platform: haier_acyrw02
-    sensor_id: ${device_id}_current_temperature
-    pin: 3 # Pin with IR led
-    name: ${device_name}
+  - platform: haier_ac160
+    id: ${device_id}
+    sensor_id: ac_bedroom_temperature
+    pin: 4 # Pin with IR led
+    name: "AC Bedroom"
 
+select:
   - platform: template
     id: ${device_id}_vertical_direction
     name: ${device_name} airflow vertical
@@ -49,14 +87,14 @@ climate:
     icon: mdi:arrow-expand-vertical
     optimistic: true
     restore_value: true
-    initial_option: Auto 
+    initial_option: Center 
     options:
       - Up
       - Center
       - Down
     on_value:
       then:
-        - climate.haier_acyrw02.set_vertical_airflow:
+        - climate.haier_ac160.set_vertical_airflow:
            id: ${device_id}
            vertical_airflow: !lambda |-
-             return esphome::haier_acyrw02::AirflowVerticalDirection(i);
+             return esphome::haier_ac160::AirflowVerticalDirection(i);
